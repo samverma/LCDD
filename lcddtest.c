@@ -1,24 +1,18 @@
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<errno.h>
 #include<fcntl.h>
 #include<string.h>
-
-#define BUFFLEN 512               
+#define BUFFLEN 512 
+              
 static char receive[BUFFLEN];     
-
-int main(){
+int main(int argc, char *argv[]){
    int ret, fd;
    char msg[BUFFLEN];
+   assert(argc > 1);
    printf("Starting LCD to test\n");
    fd = open("/dev/lcd", O_RDWR);           
-   if (fd < 0){
-      perror("Opening LCD failed"); 
-      return errno; 
-   }
-   printf("Input string to write to module:\n");
-   scanf("%[^\n]%*c", msg);                
+   msg = argv[1];      
    printf("Writing message: [%s]\n", msg);
    ret = write(fd, msg, strlen(msg)); 
    printf("Press 'r' to read back message from module\n");
